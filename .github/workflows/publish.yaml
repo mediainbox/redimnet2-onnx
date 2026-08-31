@@ -1,0 +1,114 @@
+name: Publish package and docs
+
+on:
+  push:
+    tags: ['v*']
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Run CI
+    uses: ./.github/workflows/ci.yaml
+
+  build:
+    name: Build distributions
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install uv and Python 3.12
+        uses: astral-sh/setup-uv@v9
+        with:
+          version: "latest"
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Check package version matches tag
+        uses: samuelcolvin/check-python-version@v5
+        with:
+          version_file_path: pyproject.toml
+
+      - name: Build distributions
+        run: uv build --no-sources
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-distributions
+          path: dist/
+          if-no-files-found: error
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/redimnet2-onnx
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v8
+        with:
+          name: python-distributions
+          path: dist/
+
+      - name: Publish distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-docs:
+    name: Publish documentation
+    needs: publish-to-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install uv and Python 3.12
+        uses: astral-sh/setup-uv@v9
+        with:
+          version: "latest"
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Retrieve documentation version
+        id: version
+        uses: samuelcolvin/check-python-version@v5
+        with:
+          version_file_path: pyproject.toml
+
+      - name: Install documentation dependencies
+        run: uv sync --locked --no-default-groups --group docs
+
+      - name: Configure Git user
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy versioned documentation
+        run: |
+          uv run mike deploy \
+            --update-aliases \
+            --push \
+            --branch docs-site \
+            ${{ steps.version.outputs.VERSION_MAJOR_MINOR }} latest
+          uv run mike set-default \
+            --push \
+            --branch docs-site \
+            latest

@@ -1,0 +1,161 @@
+[project]
+name = "redimnet2-onnx"
+version = "0.1.0"
+description = "ReDimNet2 speaker verification with ONNX."
+authors = [{ name = "ankandrew", email = "61120139+ankandrew@users.noreply.github.com" }]
+requires-python = ">=3.12"
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "speaker-verification",
+    "speaker-recognition",
+    "speaker-embeddings",
+    "speech-processing",
+    "audio",
+    "onnx",
+    "onnx-runtime",
+    "redimnet",
+    "redimnet2",
+]
+classifiers = [
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+]
+
+[project.optional-dependencies]
+onnx = ["onnxruntime"]
+onnx-gpu = ["onnxruntime-gpu"]
+onnx-openvino = ["onnxruntime-openvino"]
+onnx-directml = ["onnxruntime-directml"]
+onnx-qnn = ["onnxruntime-qnn"]
+
+[project.urls]
+Repository = "https://github.com/mediainbox/redimnet2-onnx"
+Documentation = "https://mediainbox.github.io/redimnet2-onnx"
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "ruff",
+    "pylint",
+    "yamllint",
+]
+
+
+test = [
+    "pytest",
+    "pytest-mock>=3.15.1",
+]
+
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mike",
+]
+
+[tool.uv]
+default-groups = [
+    "dev",
+    "test",
+    "docs",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    "W",
+    # Pyflakes
+    "F",
+    # pep8-naming
+    "N",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # flake8-unused-arguments
+    "ARG",
+    # Pylint
+    "PL",
+    # Perflint
+    "PERF",
+    # Ruff-specific rules
+    "RUF",
+    # pandas-vet
+    "PD",
+    # flynt
+    "FLY",
+    # flake8-comprehensions
+    "C4",
+    # flake8-datetimez
+    "DTZ",
+]
+ignore = ["N812", "PLR2004", "PD011"]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.pylint]
+max-args = 8
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.12"
+disable_error_code = "import-untyped"
+
+[tool.pylint.main]
+py-version = "3.12"
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint."messages control"]
+disable = ["missing-class-docstring", "missing-function-docstring", "wrong-import-order", "missing-module-docstring"]
+
+[tool.pylint.design]
+max-args = 9
+max-attributes = 10
+max-positional-arguments = 9
+min-public-methods = 1
+
+[tool.pylint.basic]
+no-docstring-rgx = "^__|^test_"
+
+[tool.pylint.miscellaneous]
+notes = ["FIXME", "XXX"]
+
+[tool.pytest.ini_options]
+norecursedirs = [
+    ".git",
+    ".venv",
+    ".tox",
+    "docs",
+    "examples",
+    "trained_models",
+]
+python_files = ["test_*.py"]
