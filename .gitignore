@@ -139,6 +139,8 @@ venv.bak/
 
 # mkdocs documentation
 /site
+artifacts/
+*.onnx
 
 # mypy
 .mypy_cache/

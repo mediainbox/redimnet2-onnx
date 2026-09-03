@@ -1,23 +1,35 @@
 # ReDimNet2 ONNX
 
-ReDimNet2 ONNX provides ONNX exports of
-[PalabraAI ReDimNet2](https://github.com/PalabraAI/redimnet2) speaker-recognition models. The models produce normalized,
-192-dimensional speaker embeddings suitable for speaker verification and recognition.
+Run the official [PalabraAI ReDimNet2](https://github.com/PalabraAI/redimnet2) speaker-verification models with ONNX
+Runtime.
 
-## Runtime support
+All 20 published checkpoints are available and produce L2-normalized 192-dimensional speaker embeddings.
 
-The package does not install an ONNX runtime by default. Choose the optional dependency that matches your hardware:
+## Quick start
 
-- ONNX Runtime for cross-platform CPU inference
-- ONNX Runtime GPU for NVIDIA CUDA
-- OpenVINO for Intel hardware
-- DirectML for Windows accelerators
-- QNN for supported Qualcomm devices
+For raw 16 kHz audio on CPU:
 
-See [Installation](installation.md) for the available extras and install commands.
+```bash
+pip install "redimnet2-onnx[cpu,waveform]"
+```
 
-## Project links
+```python
+from redimnet2_onnx import load_model
 
-- [Source code](https://github.com/mediainbox/redimnet2-onnx)
-- [Package on PyPI](https://pypi.org/project/redimnet2-onnx/)
-- [Issue tracker](https://github.com/mediainbox/redimnet2-onnx/issues)
+model = load_model("b6-vb2+vox2_v0-lm")
+
+# waveform: mono 16 kHz audio, 1-30 seconds
+embedding = model.embed(waveform)
+
+print(embedding.shape)
+# (1, 192)
+```
+
+Models are downloaded from versioned GitHub Releases and verified with SHA-256.
+
+## Next steps
+
+- [Installation](installation.md) - choose an inference backend.
+- [Usage](usage.md) - waveform inference, speaker verification, providers, and TensorRT.
+- [Models](models.md) - understand model names and released checkpoint families.
+- [API Reference](api.md) - complete Python API.

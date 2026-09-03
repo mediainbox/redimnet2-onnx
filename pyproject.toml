@@ -3,7 +3,7 @@ name = "redimnet2-onnx"
 version = "0.1.0"
 description = "ReDimNet2 speaker verification with ONNX."
 authors = [{ name = "ankandrew", email = "61120139+ankandrew@users.noreply.github.com" }]
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -29,19 +29,20 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
-dependencies = [
-]
+dependencies = ["numpy>=1.26"]
 
 [project.optional-dependencies]
-onnx = ["onnxruntime"]
-onnx-gpu = ["onnxruntime-gpu"]
-onnx-openvino = ["onnxruntime-openvino"]
-onnx-directml = ["onnxruntime-directml"]
-onnx-qnn = ["onnxruntime-qnn"]
+cpu = ["onnxruntime>=1.23"]
+cuda = ["onnxruntime-gpu>=1.23"]
+openvino = ["onnxruntime-openvino>=1.23"]
+directml = ["onnxruntime-directml>=1.23"]
+qnn = ["onnxruntime-qnn>=1.23"]
+waveform = ["torch>=2.11"]
 
 [project.urls]
 Repository = "https://github.com/mediainbox/redimnet2-onnx"
@@ -67,6 +68,15 @@ docs = [
     "mike",
 ]
 
+export = [
+    "onnx>=1.19,<2",
+    "onnxscript>=0.5,<1",
+    "scipy>=1.15,<2",
+    "soundfile>=0.13",
+    "torch==2.13.0",
+    "torchaudio==2.11.0",
+]
+
 [tool.uv]
 default-groups = [
     "dev",
@@ -80,7 +90,7 @@ build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 120
-target-version = "py312"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = [
@@ -128,8 +138,12 @@ line-ending = "lf"
 python_version = "3.12"
 disable_error_code = "import-untyped"
 
+[[tool.mypy.overrides]]
+module = ["onnxruntime", "onnxruntime.*", "torch", "torch.*"]
+ignore_missing_imports = true
+
 [tool.pylint.main]
-py-version = "3.12"
+py-version = "3.11"
 
 [tool.pylint.format]
 max-line-length = 120

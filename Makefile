@@ -1,5 +1,5 @@
 # Directories
-SRC_PATHS := redimnet2_onnx/ test/
+SRC_PATHS := redimnet2_onnx/ scripts/ test/
 YAML_PATHS := .github/ mkdocs.yaml
 
 # Tasks
@@ -7,7 +7,7 @@ YAML_PATHS := .github/ mkdocs.yaml
 help:
 	@echo "Available targets:"
 	@echo "  help             : Show this help message"
-	@echo "  install          : Install project with all dependencies"
+	@echo "  install          : Install project with development dependencies"
 	@echo "  format           : Format code using Ruff format"
 	@echo "  check_format     : Check code formatting with Ruff format"
 	@echo "  ruff             : Run Ruff linter"
@@ -21,8 +21,8 @@ help:
 
 .PHONY: install
 install:
-	@echo "==> Installing project with all dependencies..."
-	@uv sync --locked --all-groups
+	@echo "==> Installing project with development dependencies..."
+	@uv sync --locked
 
 .PHONY: format
 format:

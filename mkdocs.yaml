@@ -14,6 +14,8 @@ theme:
     - navigation.instant
     - navigation.sections
     - navigation.top
+    - navigation.tracking
+    - toc.follow
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -33,16 +35,48 @@ theme:
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Usage: usage.md
+  - Models: models.md
+  - API Reference: api.md
 
 plugins:
   - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: google
+            docstring_section_style: list
+            members_order: source
+            merge_init_into_class: true
+
+            heading_level: 3
+            show_root_heading: true
+            show_root_full_path: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+
+            separate_signature: true
+            show_signature_annotations: true
+            show_signature_type_parameters: true
+            signature_crossrefs: true
+
+            summary: true
+            unwrap_annotated: true
+            show_source: false
+
   - mike:
       canonical_version: latest
 
 markdown_extensions:
   - admonition
   - attr_list
+  - toc:
+      permalink: true
   - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
   - pymdownx.superfences
 
 extra:
