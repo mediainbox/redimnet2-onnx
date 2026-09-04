@@ -4,7 +4,6 @@
 [![Publish status](https://github.com/mediainbox/redimnet2-onnx/actions/workflows/publish.yaml/badge.svg)](https://github.com/mediainbox/redimnet2-onnx/actions/workflows/publish.yaml)
 [![PyPI](https://img.shields.io/pypi/v/redimnet2-onnx.svg)](https://pypi.org/project/redimnet2-onnx/)
 [![Python](https://img.shields.io/pypi/pyversions/redimnet2-onnx.svg)](https://pypi.org/project/redimnet2-onnx/)
-[![License](https://img.shields.io/pypi/l/redimnet2-onnx.svg)](https://pypi.org/project/redimnet2-onnx/)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://mediainbox.github.io/redimnet2-onnx/)
 [![ONNX Model](https://img.shields.io/badge/model-ONNX-blue?logo=onnx&logoColor=white)](https://onnx.ai/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
