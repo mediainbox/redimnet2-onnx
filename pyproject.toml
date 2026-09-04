@@ -1,6 +1,6 @@
 [project]
 name = "redimnet2-onnx"
-version = "0.1.0"
+version = "0.2.0"
 description = "ReDimNet2 speaker verification with ONNX."
 authors = [{ name = "ankandrew", email = "61120139+ankandrew@users.noreply.github.com" }]
 requires-python = ">=3.11"
